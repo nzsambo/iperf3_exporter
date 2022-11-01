@@ -114,10 +114,10 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 
 	// out, err := exec.CommandContext(ctx, iperfCmd, "-J", "-t", strconv.FormatFloat(e.period.Seconds(), 'f', 0, 64), "-c", e.target, "-p", strconv.Itoa(e.port)).Output()
 	var iperfArgs []string
-	iperfArgs = []string{"-J", "-t", strconv.FormatFloat(e.period.Seconds(), 'f', 0, 64), "-c", e.target, "-p", strconv.Itoa(e.port)}
-	if e.reverse {
-		iperfArgs = append(iperfArgs, "-R")
-	}
+	iperfArgs = []string{"-J", "-t", strconv.FormatFloat(e.period.Seconds(), 'f', 0, 64), "-c", e.target, "-p", strconv.Itoa(e.port), "-R"}
+	// if e.reverse {
+	// 	iperfArgs = append(iperfArgs, "-R")
+	// }
 	out, err := exec.CommandContext(ctx, iperfCmd, iperfArgs...).Output()
 	if err != nil {
 		ch <- prometheus.MustNewConstMetric(e.success, prometheus.GaugeValue, 0)
